@@ -1,0 +1,4 @@
+#rate-limit:
+#  header: X-Rate-Limit-Key
+#  capacity: 10
+#  duration: 1m
