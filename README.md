@@ -11,6 +11,8 @@
 
 > Gradle 7.6 
 
+## Rate limit by Header
+
 ### Properties
 See default in `RateLimitByHeaderProperties.java`
 
@@ -20,6 +22,24 @@ rate-limit:
   header: X-Rate-Limit-Key
   capacity: 5
   duration: 1m
+```
+
+## Rate limit by API
+```yaml
+rate-limit:
+  api:
+    - key: api-1
+      paths:
+        - /api/v1/random-data/numeric
+      config:
+        capacity: 5
+        duration: 1m
+    - key: api-2
+      paths:
+        - /api/v1/random-data/alphabetic
+      config:
+        capacity: 2
+        duration: 30s
 ```
 
 ### Additional response headers
