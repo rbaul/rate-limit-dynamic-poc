@@ -14,6 +14,6 @@ public class RateLimitConfiguration {
 	
 	@Bean
 	public RateLimitInterceptor rateLimitInterceptor(RateLimitProperties properties) {
-		return new RateLimitInterceptor(rateLimitService(properties), properties);
+		return new RateLimitInterceptor(rateLimitService(properties));
 	}
 }
