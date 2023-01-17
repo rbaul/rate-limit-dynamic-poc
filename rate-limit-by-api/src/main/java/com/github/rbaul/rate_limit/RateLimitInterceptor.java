@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.text.MessageFormat;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -23,7 +24,7 @@ public class RateLimitInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		String requestURI = request.getRequestURI();
+		String requestURI = MessageFormat.format("{0} {1}", request.getMethod(), request.getRequestURI());
 		Optional<Bucket> bucketOptional = rateLimitService.resolveBucketByUrl(requestURI);
 		if (bucketOptional.isPresent()) {
 			Bucket tokenBucket = bucketOptional.get();
