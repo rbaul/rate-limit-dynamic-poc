@@ -2,14 +2,15 @@ package com.github.rbaul.rate_limit;
 
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.ConsumptionProbe;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.text.MessageFormat;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -23,7 +24,8 @@ public class RateLimitInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		Optional<Bucket> bucketOptional = rateLimitService.resolveBucket(request);
+		String requestURI = MessageFormat.format("{0} {1}", request.getMethod(), request.getRequestURI());
+		Optional<Bucket> bucketOptional = rateLimitService.resolveBucketByUrl(requestURI);
 		if (bucketOptional.isPresent()) {
 			Bucket tokenBucket = bucketOptional.get();
 			ConsumptionProbe probe = tokenBucket.tryConsumeAndReturnRemaining(1);
@@ -42,5 +44,7 @@ public class RateLimitInterceptor implements HandlerInterceptor {
 		} else {
 			return true; // No need to limit rate
 		}
+		
+		
 	}
 }

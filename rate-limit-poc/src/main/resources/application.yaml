@@ -1,17 +1,25 @@
 rate-limit:
-#  header: X-Rate-Limit-Key
-#  capacity: 10
-#  duration: 1m
+  #  header: X-Rate-Limit-Key
+  #  capacity: 10
+  #  duration: 1m
   api:
-    - key: api-1
+    - key: limit-1
       paths:
         - GET /api/v1/random-data/numeric
+        - GET /api/v1/random-data/echo/{word}
+        - POST /api/v1/random-data/echo
+        - PUT /api/v1/random-data/echo/{word}
       config:
         capacity: 5
         duration: 1m
-    - key: api-2
+    - key: limit-2
       paths:
         - GET /api/v1/random-data/alphabetic
       config:
         capacity: 2
         duration: 30s
+    - key: limit-3
+      config:
+        capacity: 2
+        duration: 10s
+

@@ -31,3 +31,6 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+jar.enabled = true
+bootJar.enabled = false
