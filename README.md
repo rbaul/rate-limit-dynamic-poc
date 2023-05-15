@@ -27,19 +27,38 @@ rate-limit:
 ## Rate limit by API
 ```yaml
 rate-limit:
+  #  header: X-Rate-Limit-Key
+  #  capacity: 10
+  #  duration: 1m
   api:
-    - key: api-1
+    - key: limit-1
       paths:
-        - /api/v1/random-data/numeric
+        - GET /api/v1/random-data/numeric
+        - GET /api/v1/random-data/echo/{word}
+        - POST /api/v1/random-data/echo
+        - PUT /api/v1/random-data/echo/{word}
       config:
         capacity: 5
         duration: 1m
-    - key: api-2
+    - key: limit-2
       paths:
-        - /api/v1/random-data/alphabetic
+        - GET /api/v1/random-data/alphabetic
       config:
         capacity: 2
         duration: 30s
+    - key: limit-3
+      config:
+        capacity: 2
+        duration: 10s
+```
+
+### Annotation support `@RateLimit`
+``` java
+	@RateLimit("limit-3")
+	@GetMapping("/alphanumeric")
+	public String getRandomAlphanumeric() {
+		return RandomStringUtils.randomAlphanumeric(10);
+	}
 ```
 
 ### Additional response headers

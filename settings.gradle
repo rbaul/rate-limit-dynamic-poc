@@ -3,4 +3,5 @@ rootProject.name = 'rate-limit'
 include 'rate-limit-by-header'
 include 'rate-limit-poc'
 include 'rate-limit-by-api'
+include 'rate-limit-api'
 
